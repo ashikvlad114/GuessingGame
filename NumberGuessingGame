@@ -1,0 +1,65 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class NumberGuessingGame {
+    public static void main(String[] args) {
+        int difficulty = getDifficulty();
+        int range = getRange(difficulty);
+        int number = generateNumber(range);
+        int attempts = difficulty + 1;
+
+        System.out.println("Welcome to the Number Guessing Game!");
+        System.out.println("You have " + attempts + " attempts to guess the number between 1 and " + range + ".");
+
+        Scanner scanner = new Scanner(System.in);
+        for (int i = 0; i < attempts; i++) {
+            System.out.print("Enter your guess: ");
+            int guess = scanner.nextInt();
+
+            if (guess < number) {
+                System.out.println("Too low!");
+            } else if (guess > number) {
+                System.out.println("Too high!");
+            } else {
+                System.out.println("Congratulations! You've guessed the number: " + number);
+                return;
+            }
+        }
+
+        System.out.println("Sorry, you didn't guess the number: " + number);
+    }
+
+    private static int getDifficulty() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Choose the difficulty (easy: 0, medium: 1, hard: 2): ");
+        int difficulty = scanner.nextInt();
+        while (difficulty < 0 || difficulty > 2) {
+            System.out.print("Invalid difficulty. Choose the difficulty (easy: 0, medium: 1, hard: 2): ");
+            difficulty = scanner.nextInt();
+        }
+        return difficulty;
+    }
+
+    private static int getRange(int difficulty) {
+        int range = 0;
+        switch (difficulty) {
+            case 0:
+                range = 100;
+                break;
+            case 1:
+                range = 1000;
+                break;
+            case 2:
+                range = 10000;
+                break;
+            default:
+                range = 100;
+        }
+        return range;
+    }
+
+    private static int generateNumber(int range) {
+        Random random = new Random();
+        return random.nextInt(range) + 1;
+    }
+}
